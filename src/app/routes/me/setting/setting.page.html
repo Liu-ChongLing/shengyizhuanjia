@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=" " defaultHref="/tabs/me" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>设置</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content non-padding color="light">
+  <ion-list inset="true">
+    <ion-item detail (click)=toShop()>
+      <ion-label style="font-size: 16px;font-weight:bold">店铺设置</ion-label>
+    </ion-item>
+    <ion-item detail (click)=toChangePassword()>
+      <ion-label style="font-size: 16px;font-weight:bold">修改密码</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail href="/about-us">
+      <ion-label style="font-size: 16px;font-weight:bold">关于我们</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label style="font-size: 16px;font-weight:bold">联系客服</ion-label>
+      <a style="font-size: 16px;" href="tel:18960875590">18960875590</a>
+    </ion-item>
+    <ion-item>
+      <ion-label style="font-size: 16px;font-weight:bold">版本号：1.7.4</ion-label>
+      <ion-note slot="end" style="font-size: 16px;">检测更新</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item style="font-size: 16px;font-weight:bold" (click)="onLogout()">
+      安全退出
+    </ion-item>
+  </ion-list>
+
+  <lcl-copyright [bottom]="'40px'" style="font-size: 12px;"></lcl-copyright>
+</ion-content>

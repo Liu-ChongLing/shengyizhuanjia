@@ -1,0 +1,22 @@
+import { ShopEditPage } from './shop-edit/shop-edit.page';
+import { NgModule, Component } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { ShopPage } from './shop.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: ShopPage
+  },
+  {
+    path: 'shop-edit',
+    loadChildren: () => import('./shop-edit/shop-edit.module').then( m => m.ShopEditPageModule)
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class ShopPageRoutingModule {}

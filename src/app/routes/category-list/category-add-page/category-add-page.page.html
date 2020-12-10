@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar no-border color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/category-list" text=" " color="light"></ion-back-button>
+    </ion-buttons>
+    <span style="margin-left: 120px;font-size: 16px;">{{headTitle}}</span>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding color="medium">
+  <form>
+    <ion-list>
+      <ion-item-divider>
+        <div style="font-size: 14px;">{{add_category_title}}</div>
+        <div style="font-size: 14px;" *ngIf="add_category_title == '大分类'" slot="end">
+          <ion-input name="{{add_category_title}}" [(ngModel)]="name1" type="text" required placeholder="商品大分类名称"></ion-input>
+        </div>
+      </ion-item-divider>
+      <ion-item-divider *ngFor="let c of category.children">
+        <div style="font-size: 14px;">小分类</div>
+        <div slot="end">
+          <ion-input style="font-size: 14px;" name="subCategory" [(ngModel)]="c.name" type="text" required placeholder="商品小分类名称"></ion-input>
+        </div>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-text color="primary" (click)="addSubCategory()" style="font-size: 12px;">
+          <ion-icon name="add-circle"></ion-icon>新增小分类
+        </ion-text>
+      </ion-item-divider>
+    </ion-list>
+    <div padding-horizontal>
+      <ion-button expand="full" color="primary" (click)="onSave()">保存</ion-button>
+    </div>
+  </form>
+</ion-content>

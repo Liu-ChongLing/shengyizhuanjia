@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-menu-button color="light" style="font-size: 18px;"></ion-menu-button>
+    </ion-buttons> -->
+    <ion-title>
+      首页
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <img src="assets\img\logoin_title.jpg" alt="首页图片">
+  </div>
+
+  <ion-grid>
+    <div class="data-list">
+    <ion-row color="medium">
+      <ion-col *ngFor="let s of sales">
+        <h6 style="font-weight: normal;font-size: 12px;">{{s.title}}</h6>
+        <span style="font-weight: bold;font-size: 14px;">{{s.current | number:'1.2-2'}}</span>
+        <span style="font-size: 9px;">元</span>
+        <p style="font-size: 10px;">
+          {{s.content}}
+          <span style="font-weight: normal;font-size: 8px"
+            [ngClass]="{'less-equal':s.current - s.previous <= 0,'greater':s.current - s.previous > 0}">
+            {{s.current - s.previous | number:'1.2-2'}}
+          </span>
+          <ng-container [ngSwitch]="minus(s.current, s.previous)">
+            <ion-icon name="arrow-up" color="danger" *ngSwitchCase="1"></ion-icon>
+            <ion-icon name="arrow-forward" color="success" *ngSwitchCase="0"></ion-icon>
+            <ion-icon name="arrow-down" color="success" *ngSwitchCase="-1"></ion-icon>
+          </ng-container>
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+
+    <ion-row class="quick-actions"  *ngFor="let homeButtons of homeButtonsBlock">
+      <ion-col class="quick-action-item" *ngFor="let button of homeButtons" size="3">
+        <a class="shortcut" routerLink={{button.href}} *ngIf="!button.disable">
+          <img src="assets/img/{{button.id}}.png" alt="" class="index_quickaction">
+          <div style="font-size: 12px;">{{button.name}}</div>
+        </a>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  <lcl-copyright [bottom]="'40px'" style="font-size: 12px;"></lcl-copyright>
+</ion-content>

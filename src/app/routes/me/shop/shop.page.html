@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=" " defaultHref="/tabs/me/setting" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>店铺信息</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="light">
+  <ion-list inset="true">
+    <ion-item detail routerLink="/tabs/me/shop/shop-edit" [queryParams]="{title:'店铺名称',property:'shopName'}">
+      <ion-label style="font-size: 16px;font-weight: bold;">店铺名称</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.shopName}}</ion-note>
+    </ion-item>
+    <ion-item detail routerLink="/tabs/me/shop/shop-edit" [queryParams]="{title:'店铺简称',property:'anotherName'}">
+      <ion-label style="font-size: 16px;font-weight: bold">店铺简称</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.anotherName}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label style="font-size: 16px;font-weight: bold">注册时间</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.createDate}}</ion-note>
+    </ion-item>
+    <ion-item >
+      <ion-label style="font-size: 16px;font-weight: bold">手机号码</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.phone}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item>
+      <ion-label style="font-size: 16px;font-weight: bold">电子邮箱</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px;">{{shopData.email}}</ion-note>
+    </ion-item>
+    <ion-item detail routerLink="/tabs/me/shop/shop-edit" [queryParams]="{title:'店主姓名',property:'shopKeeperName'}">
+      <ion-label style="font-size: 16px;font-weight: bold">店主姓名</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.shopKeeperName}}</ion-note>
+    </ion-item>
+    <ion-item detail routerLink="/tabs/me/shop/shop-edit" [queryParams]="{title:'店铺电话',property:'shopTel'}">
+      <ion-label style="font-size: 16px;font-weight: bold">店铺电话</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px">{{shopData.shopTel}}</ion-note>
+    </ion-item>
+    <ion-item detail>
+      <ion-label style="font-size: 16px;font-weight: bold">行业类型</ion-label>
+      <ion-note item-end slot="end" style="font-size: 16px;"></ion-note>
+    </ion-item>
+  </ion-list>
+
+  <lcl-copyright [bottom]="'40px'" style="font-size: 12px;"></lcl-copyright>
+</ion-content>

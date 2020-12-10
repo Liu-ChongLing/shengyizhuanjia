@@ -1,0 +1,204 @@
+<!-- 工具栏 -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="">
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- 工具栏 -->
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="primary" (click)="onBack($event)">返回</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+
+<ion-content>
+  <!-- logo图 -->
+  <div class="ion-text-center">
+    <img class="logo" src="assets/img/logo.png" alt="">
+  </div>
+  <!-- 注册步骤图 -->
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <img src="assets/img/registered_one.png" alt="" *ngIf="!isActive(0)">
+        <img src="assets/img/registered_one_one.png" alt="" *ngIf="isActive(0)">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/registered_two.png" alt="" *ngIf="!isActive(1)">
+        <img src="assets/img/registered_two_two.png" alt="" *ngIf="isActive(1)">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/registered_three.png" alt="" *ngIf="!isActive(2)">
+        <img src="assets/img/registered_three_three.png" alt="" *ngIf="isActive(2)">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/registered_four.png" alt="" *ngIf="!isActive(3)">
+        <img src="assets/img/registered_four_four.png" alt="" *ngIf="isActive(3)">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-slides #signupSlides>
+    <!-- slide1 -->
+    <ion-slide>
+      <form  #slide1Form="ngForm">
+        <ion-list>
+          <!-- 号码输入框 -->
+          <ion-item>
+            <ion-input name="phone" type="number" placeholder="请输入您的电话号码" required
+              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone"
+              #phone="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- 验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched">
+            <p [hidden]="!phone.errors?.pattern" class="padding-start">您输入的手机号格式不正确</p>
+          </ion-text>
+          <!-- 下一步按钮 -->
+          <ion-item>
+            <ion-button type="submit" color="primary" expand="block" size="large" class="btn"
+              [disabled]="slide1Form.invalid" (click)="onNext($event)">
+              下一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+    <!-- slide2 -->
+    <ion-slide>
+      <form  #slide2Form="ngForm">
+        <ion-list>
+          <ion-item>
+            <!-- 验证码输入框 -->
+            <ion-input name="code" slot="start" placeholder="请输入验证码" color="primary" [(ngModel)]="signup.code"
+              #code="ngModel" (click)="onCodeBox($event)">
+            </ion-input>
+            <!-- 发送验证码按钮 -->
+            <ion-button color="primary" fill="outline" expand="block" slot="end" (click)="onSendSMS($event)"
+              [disabled]=timeron>
+              {{buttonText}}
+            </ion-button>
+          </ion-item>
+          <!-- 验证码显示框 -->
+          <ion-text class="ion-text-left" color="danger">
+            <p class="padding-start">{{realcode}}</p>
+          </ion-text>
+          <!-- 验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger" *ngIf="successCode===false">
+            <p class="padding-start">验证码错误或未输入验证码</p>
+          </ion-text>
+          <!-- 下一步按钮 -->
+          <ion-item>
+            <ion-button type="submit" color="primary" expand="block" size="large" class="btn"
+              (click)="onValidateCode(signup.code)">
+              下一步
+            </ion-button>
+          </ion-item>
+          <!-- 上一步按钮 -->
+          <ion-item>
+            <ion-button color="primary" fill="outline" expand="block" size="large" class="btn"
+              (click)="onPrevious($event)">
+              上一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+    <!-- slide3 -->
+    <ion-slide>
+      <form  #slide3Form="ngForm">
+        <ion-list>
+          <!-- 店铺名称 -->
+          <ion-item>
+            <ion-input name="shopName" placeholder="请输入店铺的名称" class="phonebox" color="primary" required
+              pattern="^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$" [(ngModel)]="signup.shopName"
+              #shopName="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- 店铺名称验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger" *ngIf="shopName.invalid && shopName.touched">
+            <p [hidden]="!shopName.errors?.pattern" class="padding-start">店铺名称只包括中文、英文、数字</p>
+          </ion-text>
+          <!-- 邮箱 -->
+          <ion-item>
+            <ion-input name="email" placeholder="请输入电子邮箱" class="phonebox" color="primary" required
+              pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" [(ngModel)]="signup.email" #email="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- 邮箱验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger" *ngIf="email.invalid && email.touched">
+            <p [hidden]="!email.errors?.pattern" class="padding-start">您输入的邮箱格式不正确</p>
+          </ion-text>
+          <!-- 登录密码 -->
+          <ion-item>
+            <ion-input inputmode="text" type="password" name="password" placeholder="请输入登录密码" class="phonebox"
+              color="primary" required pattern="(?!^bai[a-z]*$)(?!^du[A-Z]*$)(?!^[0-9]*$)(?!^[_\W]*$)^[a-zA-Z0-9].{8,}$"
+              [(ngModel)]="signup.password" #password="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- 登录密码验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger" *ngIf="password.invalid && password.touched">
+            <p [hidden]="!password.errors?.pattern" class="padding-start">密码至少包含两种类型的字符，长度8-16位</p>
+          </ion-text>
+          <!-- 确认密码 -->
+          <ion-item>
+            <ion-input inputmode="text" type="password" name="confirmPassword" placeholder="请确认密码" class="phonebox"
+              color="primary" required [pattern]="signup.password" [(ngModel)]="signup.confirmPassword"
+              #confirmPassword="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- 确定密码验证错误提示 -->
+          <ion-text class="ion-text-left" color="danger"
+            *ngIf="confirmPassword.invalid && confirmPassword.touched">
+            <p [hidden]="!confirmPassword.errors?.pattern" class="padding-start">请与输入的密码一致</p>
+          </ion-text>
+          <!-- 下一步按钮 -->
+          <ion-item>
+            <ion-button type="submit" color="primary" expand="block" size="large" class="btn"
+              [disabled]="slide3Form.invalid" (click)="onSignupPhone(slide3Form)">
+              下一步
+            </ion-button>
+          </ion-item>
+          <!-- 上一步按钮 -->
+          <ion-item>
+            <ion-button color="primary" fill="outline" expand="block" size="large" class="btn"
+              (click)="onPrevious($event)">
+              上一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+    <!-- slide4 -->
+    <ion-slide>
+      <ion-list>
+        <ion-item>
+          <ion-text class="ion-text-left" color="danger">
+            <p class="padding-start">注册成功</p>
+          </ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-button color="primary" fill="outline" expand="block" size="large" class="btn" (click)="toTabs($event)">
+            立即登录
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+  <lcl-copyright [bottom]="'40px'" style="font-size: 12px;"></lcl-copyright>
+</ion-content>

@@ -1,0 +1,15 @@
+// ion-title {
+//     margin-left: 85px;
+// }
+.list-md {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.list-md.list-inset ion-item:first-child {
+    --border-radius: 2px 2px 0 0;
+    --border-width: 0 0 0px 0;
+}
+ion-note {
+    padding-top: 13px;
+    padding-right: 5px;
+}
