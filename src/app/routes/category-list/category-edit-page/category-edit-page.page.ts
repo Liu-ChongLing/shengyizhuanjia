@@ -111,19 +111,19 @@ export class CategoryEditPagePage implements OnInit {
   /**
    * 离开页面时保存修改数据
    */
-  ionViewDidLeave() {
-    if (this.categoryService.modifyCategory(this.category)) {
-      console.log('保存成功');
-    } else {
-      console.log('保存失败');
-    }
-  }
-  // onClick(){
+  // ionViewDidLeave() {
   //   if (this.categoryService.modifyCategory(this.category)) {
   //     console.log('保存成功');
   //   } else {
   //     console.log('保存失败');
   //   }
-  //   this.router.navigateByUrl('category-list');
   // }
+  onClick(){
+    if (this.categoryService.modifyCategory(this.category)) {
+      console.log('保存成功');
+    } else {
+      console.log('保存失败');
+    }
+    window.location.replace('category-list');
+  }
 }

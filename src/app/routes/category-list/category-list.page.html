@@ -3,10 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs" text=" "  color="light"></ion-back-button>
     </ion-buttons>
-    <span style="margin-left: 125px;font-size: 16px;">商品分类</span>
+    <span style="margin-left: 125px;font-size: 17px;font-weight: bolder;">商品分类</span>
     <ion-buttons slot="end">
       <ion-button color="light" routerLink="/category-list/add"  [queryParams]="{add_category_title: '大分类'}">
-        <ion-icon name="add" style="font-size: 20px;"></ion-icon>
+        <ion-icon name="add" style="font-size: 30px;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,11 +19,11 @@
 
       <ion-col size="5" no-padding left color="light">
         <ion-list lines="full" no-padding>
-          <ion-item lines="full" color="light" style="font-size: 14px;font-weight: bold;">
+          <ion-item lines="full" color="light" style="font-size: 16px;font-weight: bold;">
             大分类
           </ion-item>
           <ion-item *ngFor="let c of categories" (click)="onSelectCategory(c)" [color]="getItemColor(c.id)"
-            [ngClass]="{'item-active': c.id == activeCategory.id}" style="font-size: 12px;font-weight: bold;">
+            [ngClass]="{'item-active': c.id == activeCategory.id}" style="font-size: 14px">
             {{c.name}}
           </ion-item>
         </ion-list>
@@ -32,15 +32,15 @@
 
       <ion-col size="7" no-padding>
         <ion-list class="ion-no-padding">
-          <ion-item lines="full" style="font-size: 14px;font-weight: bold;">小分类</ion-item>
+          <ion-item lines="full" style="font-size: 16px;font-weight: bold;">小分类</ion-item>
           <ion-item detail>
-            <ion-label style="font-size: 12px;font-weight: bold;">无小分类进入大分类</ion-label>
+            <ion-label style="font-size: 14px;font-weight: bold;">无小分类进入大分类</ion-label>
           </ion-item>
-          <ion-item *ngFor="let c of activeCategory.children" href="" style="font-size: 12px;font-weight: bold;" detail>
+          <ion-item *ngFor="let c of activeCategory.children" href="" style="font-size: 14px" detail>
             <ion-label>{{c.name}}</ion-label>
           </ion-item>
           <br>&nbsp;
-          <ion-text color="primary" style="font-size: 13px;font-weight: bold;" slot="end" routerLink="/category-list/add"
+          <ion-text color="primary" style="font-size: 14px;font-weight: bold;" slot="end" routerLink="/category-list/add"
             [queryParams]="{add_category_title: activeCategory.name}">
             <ion-icon name="add-circle"></ion-icon>&nbsp;新增小分类
           </ion-text>
