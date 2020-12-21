@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { AjaxResult } from '../interface/ajax-result';

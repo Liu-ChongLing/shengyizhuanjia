@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 export interface AjaxResult {
     targetUrl?: string;
     result?: any;

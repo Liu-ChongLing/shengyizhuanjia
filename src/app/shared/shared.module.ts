@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { CopyrightComponent } from './components/copyright/copyright.component';
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';

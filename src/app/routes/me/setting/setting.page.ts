@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { Router } from '@angular/router';
 import { SettingService } from './setting.service';
 import { Component, OnInit } from '@angular/core';

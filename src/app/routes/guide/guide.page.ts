@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { SharedModule } from './../../shared/shared.module';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';

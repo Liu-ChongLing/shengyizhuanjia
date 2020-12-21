@@ -36,7 +36,7 @@
           <ion-item detail>
             <ion-label style="font-size: 14px;font-weight: bold;">无小分类进入大分类</ion-label>
           </ion-item>
-          <ion-item *ngFor="let c of activeCategory.children" (click)="onSelect(c)" href="" style="font-size: 14px" detail>
+          <ion-item *ngFor="let c of activeCategory.children" (click)="onSelect(c)" style="font-size: 14px" detail>
             <ion-label>{{c.name}}</ion-label>
           </ion-item>
           <br>&nbsp;

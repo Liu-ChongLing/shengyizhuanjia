@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { Category } from './category';
 export const CATEGORIES: Category[] = [
     {

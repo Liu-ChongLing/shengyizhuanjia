@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
@@ -78,7 +79,9 @@ export class CategoryListPage implements OnInit {
 
   }
   onSelect(category: Category) {
-
+    console.log(category.name);
+    this.router.navigateByUrl('add-product');
+    this.localStorageService.set('CategoryName', category.name);
   }
 
 }

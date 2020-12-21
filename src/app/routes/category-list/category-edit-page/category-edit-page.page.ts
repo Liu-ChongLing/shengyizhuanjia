@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { CategoryNameEditPage } from './../category-name-edit/category-name-edit.page';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

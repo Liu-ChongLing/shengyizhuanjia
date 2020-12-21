@@ -1,5 +1,6 @@
+// author:Liu-ChongLing
 export class Supply {
     id: string;
-    name: string;
-    phone: number;
+    supplyName: string;
+    supplyPhone: number;
 }

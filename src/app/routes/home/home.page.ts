@@ -1,3 +1,4 @@
+// author:Liu-ChongLing
 import { SaleService } from './../../shared/services/sale.service';
 import { Component, OnInit } from '@angular/core';
 

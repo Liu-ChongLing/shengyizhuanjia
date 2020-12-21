@@ -1,16 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-           选择供应商
+          选择供应商
     </ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
-        <ion-show-when mode="ios">
-          <ion-text color="primary">取消</ion-text>
-        </ion-show-when>
-        <ion-show-when mode="md">
-          <ion-icon name="close" style="font-size: 50px;"></ion-icon>
-        </ion-show-when>
+        <ion-icon name="chevron-back-sharp" style="font-size: 30px;margin-left: -10px"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,16 +14,13 @@
 <ion-content padding>
   <form>
     <ion-list>
-      <ion-item>
-        <ion-text>现有供应商如下：</ion-text>
-      </ion-item>
       <ion-item *ngFor="let s of suppliers" (click)="onClick(s)"
-                [ngClass]="{'item-active': s.name == activeSupplier.name}">
-        <ion-label>{{s.name}}</ion-label>
+        [ngClass]="{'item-active': s.name == activeSupplier.name}">
+        <ion-label position="fixed" style="font-weight: bold;">名称</ion-label>
+        <ion-label style="margin-left: -50px;">{{s.supplyName}}</ion-label>
+        <ion-label position="fixed" style="font-weight: bold;">电话</ion-label>
+        <ion-label style="margin-left: -50px;">{{s.supplyPhone}}</ion-label>
       </ion-item>
     </ion-list>
-    <div padding-horizontal>
-      <ion-button expand="block" color="primary" (click)="onSave()">确定</ion-button>
-    </div>
   </form>
 </ion-content>

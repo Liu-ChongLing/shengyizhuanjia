@@ -1,9 +1,8 @@
 // author:Liu-ChongLing
-
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CategoryService } from 'src/app/shared/services/category.service';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { Supply } from 'src/app/shared/supply';
 import { Product } from '../product';
@@ -13,7 +12,6 @@ import { SupplierPage } from '../supplier/supplier.page';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-add-product',
@@ -23,40 +21,38 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AddProductPage implements OnInit, OnDestroy {
   subscription: Subscription;
   product: Product;
+  categoryName: '';
 
   constructor(private actionSheetCtrl: ActionSheetController, private productService: ProductService,
-              private navCtrl: NavController,  private categoryService: CategoryService,
               private alertCtrl: AlertController,
               private supplierService: SupplyService, private modalCtrl: ModalController,
               private zone: NgZone, private barcodeScanner: BarcodeScanner, private imagePicker: ImagePicker, private camera: Camera,
-              private router: Router, private statusBar: StatusBar) {
+              private router: Router, private localStorageService: LocalStorageService) {
     this.product = this.initProduct();
-    this.product.categoryName = '默认分类';
     this.product.supplier = new Supply();
-    this.product.supplier.name = '输入商品供应商';
-    this.statusBar.overlaysWebView(true);
-    // 观察者
-    this.subscription = categoryService.watchCategory().subscribe(
-      (activeCategory) => {
-
-      },
-      (error) => {
-
-      }
-    );
-
+    this.product.supplier.supplyName = '请输入供应商';
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
+
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+  }
+  ionViewWillLeave(){
+    this.localStorageService.remove('CategoryName');
+    console.log('leave');
   }
 
-  // /**
-  //  * 上传图片
-  //  * @returns {Promise<void>}
-  //  */
+  ionViewWillEnter(){
+    if (this.localStorageService.get('CategoryName') === null)
+    {
+      this.product.categoryName = '请选择分类';
+    }
+    else
+    {
+      this.product.categoryName = this.localStorageService.get('CategoryName');
+    }
+    console.log('enter');
+  }
   async onPresentActiveSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: '选择您的操作',
@@ -86,27 +82,31 @@ export class AddProductPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  // /**
-  //  * 保存
-  //  * @param {boolean} ct
-  //  */
   async onSave(ct: boolean = false) {
     this.productService.insert(this.product).then(async (data) => {
-      if (data.success) {
+      if (data.success)
+      {
         const alert = await this.alertCtrl.create({
           header: '提示',
           message: '添加成功',
           buttons: ['确定']
         });
         alert.present();
-        if (ct) {
+        if (ct)
+        {
           this.product = this.initProduct();
-          this.product.categoryName = '默认分类';
-          this.product.supplier.name = '输入商品供应商';
-        } else {
-          this.router.navigateByUrl('/productList');
+          this.localStorageService.remove('CategoryName');
+          this.product.categoryName = '请选择分类';
+          this.product.supplier = new Supply();
+          this.product.supplier.supplyName = '请输入供应商';
         }
-      } else {
+        else
+        {
+          this.router.navigateByUrl('category-list');
+        }
+      }
+      else
+      {
         const alert = await this.alertCtrl.create({
           header: '提示',
           message: '添加失败',
@@ -117,29 +117,28 @@ export class AddProductPage implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * 本地没有供应商数据，输入供应商
-   */
+
   async presentAlertPrompt() {
     const alert = await this.alertCtrl.create({
       header: '新增供货商',
+      mode: 'ios',
       inputs: [
         {
-          name: 'name',
+          name: 'supplyName',
           type: 'text',
-          placeholder: '输入供货商名称'
+          placeholder: '输入名称'
         },
         {
-          name: 'phone',
+          name: 'supplyPhone',
           type: 'number',
-          placeholder: '输入供货商电话'
+          placeholder: '输入电话'
         }
       ],
       buttons: [
         {
           text: '取消',
           role: 'cancel',
-          cssClass: 'secondary',
+          cssClass: 'primary',
           handler: () => {
             console.log('Confirm Cancel');
           }
@@ -148,8 +147,8 @@ export class AddProductPage implements OnInit, OnDestroy {
           handler: (data) => {
             this.zone.run(() => {
               const supplier = new Supply();
-              supplier.name = data.name;
-              supplier.phone = data.phone;
+              supplier.supplyName = data.supplyName;
+              supplier.supplyPhone = data.supplyPhone;
               this.supplierService.insert(supplier).then((res) => {
                   if (res.success) {
                     console.log('保存成功');
@@ -166,11 +165,7 @@ export class AddProductPage implements OnInit, OnDestroy {
     });
     await alert.present();
   }
-  // /**
-  //  * 展示模态框
-  //  * @param {string} name
-  //  * @returns {Promise<any>}
-  //  */
+
   private async presentModal() {
     const modal = await this.modalCtrl.create({
       component: SupplierPage,
@@ -178,18 +173,14 @@ export class AddProductPage implements OnInit, OnDestroy {
     await modal.present();
     return modal.onWillDismiss();
   }
-  /**
-   * 点击供应商时，判断本地是否有供应商数据
-   */
+
   async onClickSupplier() {
     let suppliers: Supply[];
     this.supplierService.getAll().then(async (data) => {
       suppliers = data.result;
       if (suppliers.length <= 0) {
-        this.presentAlertPrompt(); // 本地没有供应商数据
+        this.presentAlertPrompt();
       } else {
-        // 调用模态框
-        // console.log('调用模态框');
         // tslint:disable-next-line: no-shadowed-variable
         const {data} = await this.presentModal();
         if (data) {
@@ -199,9 +190,6 @@ export class AddProductPage implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * 扫描条码
-   */
   onScan() {
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
@@ -211,9 +199,7 @@ export class AddProductPage implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * 拍照
-   */
+
   onCamera() {
     const options: CameraOptions = {
       quality: 100,
@@ -223,18 +209,13 @@ export class AddProductPage implements OnInit, OnDestroy {
     };
 
     this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
       const base64Image = 'data:image/jpeg;base64,' + imageData;
       this.product.images.push(base64Image);
     }, (err) => {
-      // Handle error
     });
   }
 
-  /**
-   * 从相册中选取
-   */
+
   onImagePicker() {
     const options: ImagePickerOptions = {
       maximumImagesCount: 4,
@@ -249,18 +230,12 @@ export class AddProductPage implements OnInit, OnDestroy {
     }, (err) => { });
   }
 
-  /**
-   * 转跳到商品类别界面
-   */
-  gotoCategyList() {
-    // this.navCtrl.navigateForward('/categoryList');
+
+  goCategyList() {
     this.router.navigateByUrl('category-list');
   }
 
-  // /**
-  //  * 初始化商品
-  //  * @returns {Product}
-  //  */
+
   initProduct(): Product {
     return {
       id: '',
@@ -268,13 +243,13 @@ export class AddProductPage implements OnInit, OnDestroy {
       categoryId: null,
       categoryName: '',
       category: null,
-      barcode: '', // 条码
+      barcode: '',
       images: [],
-      price: null, // 售价
-      purchasePrice: null, // 进价
-      inventory: null, // 库存
-      supplier: null, // 供货商
-      standard: '', // 规格
+      price: null,
+      purchasePrice: null,
+      inventory: null,
+      supplier: null,
+      standard: '',
       remark: ''
     };
   }
