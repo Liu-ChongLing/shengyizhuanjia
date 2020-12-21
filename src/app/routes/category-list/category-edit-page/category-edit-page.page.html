@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar no-border color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-back-button defaultHref = "/category-list" text=" " color="light"></ion-back-button> -->
+      <ion-button (click)=" onClick()">
+        <ion-icon name="chevron-back-sharp" style="font-size: 30px;margin-left: -10px"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <span style="margin-left: 110px;font-size: 17px;font-weight: bolder;">编辑分类</span>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="medium">
+  <div>
+    <ion-list margin-top>
+      <ion-list-header>
+        <ion-label style="font-size: 16px;">大分类</ion-label>
+      </ion-list-header>
+      <ion-item-sliding #categoryItem >
+        <ion-item>
+          <ion-label style="font-size: 14px;">{{category.name}}</ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="onEditCategoryName(categoryItem)">
+            <ion-icon name="create"></ion-icon>编辑
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="onDelete(categoryItem)">
+            <ion-icon name="trash"></ion-icon>删除
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-list-header>
+        <ion-label style="font-size: 16px;">小分类</ion-label>
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let c of category.children" #subCategoryItem>
+        <ion-item>
+          <ion-label style="font-size: 14px;">{{c.name}}</ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="onEditSubCategoryName(subCategoryItem, c)">
+            <ion-icon name="create"></ion-icon>编辑
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="onDelete(subCategoryItem, c.id)">
+            <ion-icon name="trash"></ion-icon>删除
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+</ion-content>

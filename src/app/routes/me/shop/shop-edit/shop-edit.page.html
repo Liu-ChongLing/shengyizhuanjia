@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=" " defaultHref="/tabs/me/shop" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="light">
+  <form>
+    <ion-list inset="true" style="margin-top: 30px; ">
+      <ion-item>
+        <ion-input name="{{property}}" type="text" [(ngModel)]="value" required placeholder="{{title}}" ></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button color="primary" expand="full" size="large" style="padding: 0 9px;margin-top: 46px"
+      class="ion-margin-top" (click)="onSave()">保存
+    </ion-button>
+  </form>
+</ion-content>
