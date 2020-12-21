@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomePage implements OnInit {
   homeButtonsBlock = [
     [
-      {href: '/tabs', id: 'add_salse', name: '新增商品', disable: false},
+      {href: '/add-product', id: 'add_salse', name: '新增商品', disable: false},
       {href: '/tabs', id: 'add_user', name: '新增会员', disable: false},
       {href: '/tabs', id: 'sales_account', name: '收银记账', disable: false},
       {href: '/tabs', id: 'a_note', name: '支出管理', disable: false}

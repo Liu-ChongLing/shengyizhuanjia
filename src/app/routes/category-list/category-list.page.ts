@@ -77,4 +77,8 @@ export class CategoryListPage implements OnInit {
   onSelectSubCategory() {
 
   }
+  onSelect(category: Category) {
+
+  }
+
 }
